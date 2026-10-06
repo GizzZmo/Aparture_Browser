@@ -1,0 +1,11 @@
+{
+  "@@locale": "en",
+  "appTitle": "Aperture",
+  "files": "Files",
+  "browse": "Browse",
+  "ai": "AI",
+  "filesEmpty": "No folder granted yet. Slice 2 adds folder access.",
+  "browseEmpty": "No tab open. Slice 4 adds the web view.",
+  "aiEmpty": "AI is off until an endpoint is set. Slice 5.",
+  "sliceLabel": "Slice 1 — shell only"
+}

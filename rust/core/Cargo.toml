@@ -1,0 +1,8 @@
+[package]
+name = "core"
+version = "0.1.0"
+edition = "2021"
+description = "Aperture core. Not linked in slice 1."
+
+[lib]
+path = "src/lib.rs"
