@@ -19,7 +19,7 @@ void main() {
     await tester.tap(find.text('Nett'));
     await tester.pumpAndSettle();
     expect(
-      find.text('Ingen fane er åpen. Snitt 4 legger til nettvisning.'),
+      find.text('Ingen fane er åpen. Skriv inn en adresse.'),
       findsOneWidget,
     );
 

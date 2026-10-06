@@ -31,6 +31,11 @@ abstract class AppLocalizations {
   String get ai;
   String get filesEmpty;
   String get browseEmpty;
+  String get addressHint;
+  String get back;
+  String get forward;
+  String get reload;
+  String get download;
   String get aiEmpty;
   String get sliceLabel;
   String get grantLabel;
@@ -56,7 +61,17 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get filesEmpty => 'No folder granted yet. Slice 2 adds folder access.';
   @override
-  String get browseEmpty => 'No tab open. Slice 4 adds the web view.';
+  String get browseEmpty => 'No tab open. Enter an address.';
+  @override
+  String get addressHint => 'Address';
+  @override
+  String get back => 'Back';
+  @override
+  String get forward => 'Forward';
+  @override
+  String get reload => 'Reload';
+  @override
+  String get download => 'Download';
   @override
   String get aiEmpty => 'AI is off until an endpoint is set. Slice 5.';
   @override
@@ -93,7 +108,17 @@ class AppLocalizationsNb extends AppLocalizations {
       'Ingen mappe er gitt tilgang ennå. Snitt 2 legger til mappetilgang.';
   @override
   String get browseEmpty =>
-      'Ingen fane er åpen. Snitt 4 legger til nettvisning.';
+      'Ingen fane er åpen. Skriv inn en adresse.';
+  @override
+  String get addressHint => 'Adresse';
+  @override
+  String get back => 'Tilbake';
+  @override
+  String get forward => 'Frem';
+  @override
+  String get reload => 'Last på nytt';
+  @override
+  String get download => 'Last ned';
   @override
   String get aiEmpty => 'KI er av til et endepunkt er satt. Snitt 5.';
   @override

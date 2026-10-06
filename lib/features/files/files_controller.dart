@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path/path.dart' as p;
 
 import 'files_browser.dart';
 import 'file_index.dart';
@@ -85,6 +88,17 @@ class FilesController extends StateNotifier<FilesState> {
 
   void search(String query) {
     state = state.copyWith(hits: index.search(query));
+  }
+
+  String? saveText(String name, String contents) {
+    final root = state.root;
+    final current = state.current;
+    if (root == null || current == null) return null;
+    final target = p.join(current, name);
+    resolveWithin(root, current);
+    File(target).writeAsStringSync(contents);
+    open(current);
+    return target;
   }
 
   void grant(String path) {
