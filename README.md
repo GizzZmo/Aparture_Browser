@@ -10,8 +10,8 @@ Repo-navnet `Aparture_Browser` er en historisk skrivefeil. Produktet og pakken h
 | --- | --- | --- |
 | 1 | Skall, tre flater, språk | Merged |
 | 2 | Mappesti, listing, brødsmuler, forhåndsvisning, stisandkasse | PR #2 |
-| 3 | Bakgrunnsindeks og søk, avbrytbart | Denne branchen |
-| 4 | Nettfane | Ikke startet |
+| 3 | Bakgrunnsindeks og søk, avbrytbart | PR #3 |
+| 4 | Én nettfane, navigasjon, lesbar tekst, nedlasting | Denne branchen |
 | 5 | KI-panel og verktøy | Ikke startet |
 
 Plattformmapper (linux, android, ios, macos, windows) er ikke committet. Generer dem lokalt før `flutter run`.
@@ -23,6 +23,15 @@ Plattformmapper (linux, android, ios, macos, windows) er ikke committet. Generer
 3. Trykk Indekser. Tekstfiler (txt, md, json, csv, log) leses inn. Avbryt dropper resultatet.
 4. Søk i navn og innhold. `ext:txt` begrenser filtype. Treff åpnes i forhåndsvisning.
 
+## Slik bruker du nett
+
+1. Åpne Nett.
+2. Skriv en adresse og trykk enter. Appen henter HTML og viser lesbar tekst, uten script og stil.
+3. Tilbake, frem og last på nytt bruker historikken i fanen.
+4. Last ned skriver teksten inn i den åpne mappen i filflaten. Gi tilgang til en mappe først.
+
+Dette er ikke en plattform-webview. WKWebView, Android WebView, WebView2 og WebKitGTK kommer når plattformmappene er generert.
+
 iOS og Android har ikke fri disk. En systemfildialog kommer når plattformmappene finnes. Inntil da er stien manuell, og det er i praksis et desktop-steg.
 
 ## Dataflyt
@@ -32,6 +41,11 @@ FilesPage
   grant path -> sandbox.resolveWithin
   list / preview -> FilesBrowser, avviser symlink ut av rot
   Indekser -> FileIndex i Dart, søk med ext:
+  Last ned -> saveText i granted mappe
+BrowsePage
+  adresse, tilbake, frem, reload
+  HTTP-henting + readableText
+  plattform-webview er ikke koblet inn ennå
 rust/core
   samme stisandkasse
   SQLite FTS5-indeks (rusqlite, bundled)
@@ -56,7 +70,8 @@ flutter run -d linux
 
 ## Kjente hull
 
-- Ingen fildialog, gi nytt navn, flytt, slett, nettvisning eller KI.
+- Ingen fildialog, gi nytt navn, flytt, slett eller KI.
+- Nettflaten henter HTML selv. Den er ikke WKWebView/WebView2 ennå.
 - Dart-indeksen er minnet, ikke SQLite. FTS5 ligger i Rust og er ikke koblet til UI.
 - Avbryt i UI markerer jobben som droppet. Selve gåingen er synkron og fullfører før resultatet kastes.
 - Agent-instruksen ligger i `SPEC.md`.
