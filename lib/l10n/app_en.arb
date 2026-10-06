@@ -19,5 +19,15 @@
   "previewUnsupported": "No preview for this file type.",
   "searchLabel": "Search name and text. ext:txt",
   "buildIndex": "Index",
-  "cancelIndex": "Cancel"
+  "cancelIndex": "Cancel",
+  "aiOn": "AI endpoint is set.",
+  "baseUrl": "Base URL",
+  "model": "Model",
+  "apiKey": "API key",
+  "saveSettings": "Save",
+  "attachPage": "Attach page",
+  "clearLog": "Clear log",
+  "discard": "Discard",
+  "apply": "Apply",
+  "prompt": "Ask"
 }

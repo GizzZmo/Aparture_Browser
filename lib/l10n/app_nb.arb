@@ -19,5 +19,15 @@
   "previewUnsupported": "Ingen forhåndsvisning for denne filtypen.",
   "searchLabel": "Søk i navn og tekst. ext:txt",
   "buildIndex": "Indekser",
-  "cancelIndex": "Avbryt"
+  "cancelIndex": "Avbryt",
+  "aiOn": "KI-endepunkt er satt.",
+  "baseUrl": "Base-URL",
+  "model": "Modell",
+  "apiKey": "Nøkkel",
+  "saveSettings": "Lagre",
+  "attachPage": "Fest side",
+  "clearLog": "Tøm logg",
+  "discard": "Forkast",
+  "apply": "Bruk",
+  "prompt": "Spør"
 }
