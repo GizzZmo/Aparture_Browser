@@ -11,5 +11,8 @@
   "grantLabel": "Folder path",
   "grantAction": "Grant folder",
   "previewEmpty": "Select a file to preview.",
-  "previewUnsupported": "No preview for this file type."
+  "previewUnsupported": "No preview for this file type.",
+  "searchLabel": "Search name and text. ext:txt",
+  "buildIndex": "Index",
+  "cancelIndex": "Cancel"
 }
