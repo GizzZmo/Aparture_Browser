@@ -11,8 +11,8 @@ Repo-navnet `Aparture_Browser` er en historisk skrivefeil. Produktet og pakken h
 | 1 | Skall, tre flater, språk | Merged |
 | 2 | Mappesti, listing, brødsmuler, forhåndsvisning, stisandkasse | PR #2 |
 | 3 | Bakgrunnsindeks og søk, avbrytbart | PR #3 |
-| 4 | Én nettfane, navigasjon, lesbar tekst, nedlasting | Denne branchen |
-| 5 | KI-panel og verktøy | Ikke startet |
+| 4 | Én nettfane, navigasjon, lesbar tekst, nedlasting | PR #4 |
+| 5 | KI-endepunkt, chat, leseverktøy, forslag med bekreftelse | Denne branchen |
 
 Plattformmapper (linux, android, ios, macos, windows) er ikke committet. Generer dem lokalt før `flutter run`.
 
@@ -31,6 +31,13 @@ Plattformmapper (linux, android, ios, macos, windows) er ikke committet. Generer
 4. Last ned skriver teksten inn i den åpne mappen i filflaten. Gi tilgang til en mappe først.
 
 Dette er ikke en plattform-webview. WKWebView, Android WebView, WebView2 og WebKitGTK kommer når plattformmappene er generert.
+
+## Slik bruker du KI
+
+1. Åpne KI. Tom base-URL betyr at KI er av.
+2. Sett base-URL, modell og nøkkel. Nøkkelen blir bare i minnet i dette snittet.
+3. Fest side bruker lesbar tekst fra aktiv fane. Teksten sendes som data, ikke som instruksjon.
+4. Leseverktøy er list_dir, read_file, search_files og page_text. propose_rename og propose_move blir liggende til du trykker Bruk. Det finnes ikke et sletteverktøy.
 
 iOS og Android har ikke fri disk. En systemfildialog kommer når plattformmappene finnes. Inntil da er stien manuell, og det er i praksis et desktop-steg.
 
@@ -70,8 +77,9 @@ flutter run -d linux
 
 ## Kjente hull
 
-- Ingen fildialog, gi nytt navn, flytt, slett eller KI.
+- Ingen fildialog. Gi nytt navn og flytt skjer bare etter Bruk på et forslag.
 - Nettflaten henter HTML selv. Den er ikke WKWebView/WebView2 ennå.
+- Nøkkel lagres ikke i OS-nøkkelring ennå.
 - Dart-indeksen er minnet, ikke SQLite. FTS5 ligger i Rust og er ikke koblet til UI.
 - Avbryt i UI markerer jobben som droppet. Selve gåingen er synkron og fullfører før resultatet kastes.
 - Agent-instruksen ligger i `SPEC.md`.

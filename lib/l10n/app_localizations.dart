@@ -45,6 +45,16 @@ abstract class AppLocalizations {
   String get searchLabel;
   String get buildIndex;
   String get cancelIndex;
+  String get aiOn;
+  String get baseUrl;
+  String get model;
+  String get apiKey;
+  String get saveSettings;
+  String get attachPage;
+  String get clearLog;
+  String get discard;
+  String get apply;
+  String get prompt;
 }
 
 class AppLocalizationsEn extends AppLocalizations {
@@ -90,6 +100,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String get buildIndex => 'Index';
   @override
   String get cancelIndex => 'Cancel';
+  @override
+  String get aiOn => 'AI endpoint is set.';
+  @override
+  String get baseUrl => 'Base URL';
+  @override
+  String get model => 'Model';
+  @override
+  String get apiKey => 'API key';
+  @override
+  String get saveSettings => 'Save';
+  @override
+  String get attachPage => 'Attach page';
+  @override
+  String get clearLog => 'Clear log';
+  @override
+  String get discard => 'Discard';
+  @override
+  String get apply => 'Apply';
+  @override
+  String get prompt => 'Ask';
 }
 
 class AppLocalizationsNb extends AppLocalizations {
@@ -137,6 +167,26 @@ class AppLocalizationsNb extends AppLocalizations {
   String get buildIndex => 'Indekser';
   @override
   String get cancelIndex => 'Avbryt';
+  @override
+  String get aiOn => 'KI-endepunkt er satt.';
+  @override
+  String get baseUrl => 'Base-URL';
+  @override
+  String get model => 'Modell';
+  @override
+  String get apiKey => 'Nøkkel';
+  @override
+  String get saveSettings => 'Lagre';
+  @override
+  String get attachPage => 'Fest side';
+  @override
+  String get clearLog => 'Tøm logg';
+  @override
+  String get discard => 'Forkast';
+  @override
+  String get apply => 'Bruk';
+  @override
+  String get prompt => 'Spør';
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
