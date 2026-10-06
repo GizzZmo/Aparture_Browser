@@ -37,6 +37,9 @@ abstract class AppLocalizations {
   String get grantAction;
   String get previewEmpty;
   String get previewUnsupported;
+  String get searchLabel;
+  String get buildIndex;
+  String get cancelIndex;
 }
 
 class AppLocalizationsEn extends AppLocalizations {
@@ -66,6 +69,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get previewEmpty => 'Select a file to preview.';
   @override
   String get previewUnsupported => 'No preview for this file type.';
+  @override
+  String get searchLabel => 'Search name and text. ext:txt';
+  @override
+  String get buildIndex => 'Index';
+  @override
+  String get cancelIndex => 'Cancel';
 }
 
 class AppLocalizationsNb extends AppLocalizations {
@@ -97,6 +106,12 @@ class AppLocalizationsNb extends AppLocalizations {
   String get previewEmpty => 'Velg en fil for forhåndsvisning.';
   @override
   String get previewUnsupported => 'Ingen forhåndsvisning for denne filtypen.';
+  @override
+  String get searchLabel => 'Søk i navn og tekst. ext:txt';
+  @override
+  String get buildIndex => 'Indekser';
+  @override
+  String get cancelIndex => 'Avbryt';
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

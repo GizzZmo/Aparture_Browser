@@ -11,5 +11,8 @@
   "grantLabel": "Mappesti",
   "grantAction": "Gi tilgang",
   "previewEmpty": "Velg en fil for forhåndsvisning.",
-  "previewUnsupported": "Ingen forhåndsvisning for denne filtypen."
+  "previewUnsupported": "Ingen forhåndsvisning for denne filtypen.",
+  "searchLabel": "Søk i navn og tekst. ext:txt",
+  "buildIndex": "Indekser",
+  "cancelIndex": "Avbryt"
 }

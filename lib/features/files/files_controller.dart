@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'files_browser.dart';
+import 'file_index.dart';
 import 'sandbox.dart';
 
 class FilesState {
@@ -11,6 +12,9 @@ class FilesState {
     this.previewPath,
     this.previewText,
     this.error,
+    this.indexing = false,
+    this.indexedCount = 0,
+    this.hits = const [],
   });
 
   final String? root;
@@ -19,6 +23,9 @@ class FilesState {
   final String? previewPath;
   final String? previewText;
   final String? error;
+  final bool indexing;
+  final int indexedCount;
+  final List<IndexedFile> hits;
 
   FilesState copyWith({
     String? root,
@@ -27,6 +34,9 @@ class FilesState {
     String? previewPath,
     String? previewText,
     String? error,
+    bool? indexing,
+    int? indexedCount,
+    List<IndexedFile>? hits,
     bool clearPreview = false,
     bool clearError = false,
   }) {
@@ -37,6 +47,9 @@ class FilesState {
       previewPath: clearPreview ? null : previewPath ?? this.previewPath,
       previewText: clearPreview ? null : previewText ?? this.previewText,
       error: clearError ? null : error ?? this.error,
+      indexing: indexing ?? this.indexing,
+      indexedCount: indexedCount ?? this.indexedCount,
+      hits: hits ?? this.hits,
     );
   }
 }
@@ -45,6 +58,34 @@ class FilesController extends StateNotifier<FilesState> {
   FilesController(this._browser) : super(const FilesState());
 
   final FilesBrowser _browser;
+  final FileIndex index = FileIndex();
+  int _generation = 0;
+
+  Future<void> startIndex() async {
+    final root = state.root;
+    if (root == null) return;
+    final generation = ++_generation;
+    state = state.copyWith(indexing: true, clearError: true);
+    await Future<void>.delayed(Duration.zero);
+    final built = FileIndex();
+    built.build(root, isCancelled: () => generation != _generation);
+    if (generation != _generation) {
+      state = state.copyWith(indexing: false);
+      return;
+    }
+    index.files = built.files;
+    state = state.copyWith(indexing: false, indexedCount: built.files.length);
+  }
+
+  void cancelIndex() {
+    _generation++;
+    index.cancel();
+    state = state.copyWith(indexing: false);
+  }
+
+  void search(String query) {
+    state = state.copyWith(hits: index.search(query));
+  }
 
   void grant(String path) {
     try {

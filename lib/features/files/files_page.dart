@@ -68,6 +68,48 @@ class _FilesPageState extends ConsumerState<FilesPage> {
                 current: state.current!,
                 onOpen: controller.open,
               ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        decoration: InputDecoration(
+                          labelText: l10n.searchLabel,
+                          isDense: true,
+                        ),
+                        onChanged: controller.search,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    if (state.indexing)
+                      TextButton(
+                        onPressed: controller.cancelIndex,
+                        child: Text(l10n.cancelIndex),
+                      )
+                    else
+                      TextButton(
+                        onPressed: controller.startIndex,
+                        child: Text(l10n.buildIndex),
+                      ),
+                  ],
+                ),
+              ),
+              if (state.hits.isNotEmpty)
+                SizedBox(
+                  height: 140,
+                  child: ListView(
+                    children: [
+                      for (final hit in state.hits)
+                        ListTile(
+                          dense: true,
+                          title: Text(hit.name),
+                          subtitle: Text(hit.path),
+                          onTap: () => controller.preview(hit.path),
+                        ),
+                    ],
+                  ),
+                ),
               Expanded(
                 child: ListView(
                   children: [

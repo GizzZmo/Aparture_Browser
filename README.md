@@ -1,42 +1,62 @@
 # Aperture
 
-Offline-first fil- og nettleser med et KI-panel. Én Flutter-kodebase for iOS, Android, macOS, Windows og Linux.
+Offline-first fil- og nettleser med et KI-panel. Én Flutter-kodebase, siktet mot iOS, Android, macOS, Windows og Linux.
 
-Repo-navnet er `Aparture_Browser` (historisk skrivefeil). Pakken og produktnavnet er `aperture`.
+Repo-navnet `Aparture_Browser` er en historisk skrivefeil. Produktet og pakken heter `aperture`.
 
 ## Status
 
-Snitt 2, filer. Gi tilgang til en mappe med sti, bla med brødsmuler, forhåndsvis tekst og bilder. Stier utenfor roten, inkludert symlink, avvises. Ingen nettvisning eller KI-kall.
+| Snitt | Innhold | Tilstand |
+| --- | --- | --- |
+| 1 | Skall, tre flater, språk | Merged |
+| 2 | Mappesti, listing, brødsmuler, forhåndsvisning, stisandkasse | PR #2 |
+| 3 | Bakgrunnsindeks og søk, avbrytbart | Denne branchen |
+| 4 | Nettfane | Ikke startet |
+| 5 | KI-panel og verktøy | Ikke startet |
 
-Gi tilgang: lim inn en absolutt mappesti og trykk Gi tilgang. iOS og Android har ikke fri disk. Fildialog kommer når plattformmappene er generert.
+Plattformmapper (linux, android, ios, macos, windows) er ikke committet. Generer dem lokalt før `flutter run`.
+
+## Slik bruker du filer
+
+1. Åpne Filer.
+2. Lim inn en absolutt mappesti og trykk Gi tilgang. Appen lister bare denne roten.
+3. Trykk Indekser. Tekstfiler (txt, md, json, csv, log) leses inn. Avbryt dropper resultatet.
+4. Søk i navn og innhold. `ext:txt` begrenser filtype. Treff åpnes i forhåndsvisning.
+
+iOS og Android har ikke fri disk. En systemfildialog kommer når plattformmappene finnes. Inntil da er stien manuell, og det er i praksis et desktop-steg.
 
 ## Dataflyt
 
 ```text
-ShellPage
-  ├─ /files   FilesPage     granted mappe, listing, forhåndsvisning
-  ├─ /browse  BrowsePage    tom til snitt 4 webview
-  └─ /ai      AiPanel       tom til snitt 5 endepunkt
-        │
-        ▼
-   rust/core  stisandkasse (testet). Ikke koblet via flutter_rust_bridge ennå.
-        │
-        ▼
-   OpenAI-kompatibelt endepunkt, bare hvis brukeren satte base-URL
+FilesPage
+  grant path -> sandbox.resolveWithin
+  list / preview -> FilesBrowser, avviser symlink ut av rot
+  Indekser -> FileIndex i Dart, søk med ext:
+rust/core
+  samme stisandkasse
+  SQLite FTS5-indeks (rusqlite, bundled)
+  ikke koblet til Flutter ennå (ingen flutter_rust_bridge)
 ```
 
-Dart eier UI. Samme stisjekk ligger i `rust/core` og kjøres med `cargo test`. Broen er ikke generert i dette snittet. Nettside- og filinnhold behandles som data, ikke instruksjoner.
+Nettside- og filinnhold er data, ikke instruksjoner. Ingen KI-kall i dette snittet.
 
-## Bygg
+## Bygg og test
 
-Krever Flutter stable 3.24 eller nyere.
+Krever Flutter stable 3.24 eller nyere, og Rust hvis du tester kjernen.
 
 ```bash
 flutter pub get
 flutter test
-flutter run -d linux    # eller macos, windows, chrome
+cargo test --manifest-path rust/core/Cargo.toml
+flutter create . --platforms=linux,android,ios,macos,windows
+flutter run -d linux
 ```
 
-Mobilmål (Android/iOS) kommer når plattformmappene er generert med `flutter create . --platforms=android,ios,linux,macos,windows`. Denne leveransen har app-koden, ikke de genererte plattformskallene.
+`flutter test` dekker skall, stisandkasse og at 2000 indekserte filer kan listes på under ett sekund. `cargo test` dekker sandkasse og FTS5.
 
-Agent-instruksen ligger i `SPEC.md`. Snitt 3 er ikke startet.
+## Kjente hull
+
+- Ingen fildialog, gi nytt navn, flytt, slett, nettvisning eller KI.
+- Dart-indeksen er minnet, ikke SQLite. FTS5 ligger i Rust og er ikke koblet til UI.
+- Avbryt i UI markerer jobben som droppet. Selve gåingen er synkron og fullfører før resultatet kastes.
+- Agent-instruksen ligger i `SPEC.md`.
