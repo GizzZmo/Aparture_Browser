@@ -1,6 +1,8 @@
-//! File index and AI tool schemas land in later slices.
-//! This crate is intentionally empty in slice 1.
+mod sandbox;
 
+pub use sandbox::{is_within, resolve_within, SandboxError};
+
+/// File index and AI tool schemas land in later slices.
 pub fn slice() -> u8 {
-    1
+    2
 }

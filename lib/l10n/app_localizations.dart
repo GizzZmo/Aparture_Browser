@@ -33,6 +33,10 @@ abstract class AppLocalizations {
   String get browseEmpty;
   String get aiEmpty;
   String get sliceLabel;
+  String get grantLabel;
+  String get grantAction;
+  String get previewEmpty;
+  String get previewUnsupported;
 }
 
 class AppLocalizationsEn extends AppLocalizations {
@@ -53,7 +57,15 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get aiEmpty => 'AI is off until an endpoint is set. Slice 5.';
   @override
-  String get sliceLabel => 'Slice 1 — shell only';
+  String get sliceLabel => 'Slice 2 — files';
+  @override
+  String get grantLabel => 'Folder path';
+  @override
+  String get grantAction => 'Grant folder';
+  @override
+  String get previewEmpty => 'Select a file to preview.';
+  @override
+  String get previewUnsupported => 'No preview for this file type.';
 }
 
 class AppLocalizationsNb extends AppLocalizations {
@@ -76,7 +88,15 @@ class AppLocalizationsNb extends AppLocalizations {
   @override
   String get aiEmpty => 'KI er av til et endepunkt er satt. Snitt 5.';
   @override
-  String get sliceLabel => 'Snitt 1 — bare skall';
+  String get sliceLabel => 'Snitt 2 — filer';
+  @override
+  String get grantLabel => 'Mappesti';
+  @override
+  String get grantAction => 'Gi tilgang';
+  @override
+  String get previewEmpty => 'Velg en fil for forhåndsvisning.';
+  @override
+  String get previewUnsupported => 'Ingen forhåndsvisning for denne filtypen.';
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

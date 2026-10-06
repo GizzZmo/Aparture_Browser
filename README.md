@@ -6,24 +6,26 @@ Repo-navnet er `Aparture_Browser` (historisk skrivefeil). Pakken og produktnavne
 
 ## Status
 
-Snitt 1, skall. Tre tomme flater og språkvelger. Ingen filtilgang, nettvisning eller KI-kall.
+Snitt 2, filer. Gi tilgang til en mappe med sti, bla med brødsmuler, forhåndsvis tekst og bilder. Stier utenfor roten, inkludert symlink, avvises. Ingen nettvisning eller KI-kall.
+
+Gi tilgang: lim inn en absolutt mappesti og trykk Gi tilgang. iOS og Android har ikke fri disk. Fildialog kommer når plattformmappene er generert.
 
 ## Dataflyt
 
 ```text
 ShellPage
-  ├─ /files   FilesPage     tom til snitt 2 granted mappe
+  ├─ /files   FilesPage     granted mappe, listing, forhåndsvisning
   ├─ /browse  BrowsePage    tom til snitt 4 webview
   └─ /ai      AiPanel       tom til snitt 5 endepunkt
         │
         ▼
-   (senere) rust/core  SQLite + FTS5 + stisandkasse
+   rust/core  stisandkasse (testet). Ikke koblet via flutter_rust_bridge ennå.
         │
         ▼
    OpenAI-kompatibelt endepunkt, bare hvis brukeren satte base-URL
 ```
 
-Dart eier UI og plattformkanaler. Rust skal eie indeksering og stisjekk fra snitt 2. Nettside- og filinnhold behandles som data, ikke instruksjoner.
+Dart eier UI. Samme stisjekk ligger i `rust/core` og kjøres med `cargo test`. Broen er ikke generert i dette snittet. Nettside- og filinnhold behandles som data, ikke instruksjoner.
 
 ## Bygg
 
@@ -37,4 +39,4 @@ flutter run -d linux    # eller macos, windows, chrome
 
 Mobilmål (Android/iOS) kommer når plattformmappene er generert med `flutter create . --platforms=android,ios,linux,macos,windows`. Denne leveransen har app-koden, ikke de genererte plattformskallene.
 
-Agent-instruksen ligger i `SPEC.md`. Ikke start snitt 2 før det er bedt om.
+Agent-instruksen ligger i `SPEC.md`. Snitt 3 er ikke startet.

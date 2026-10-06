@@ -7,5 +7,9 @@
   "filesEmpty": "Ingen mappe er gitt tilgang ennå. Snitt 2 legger til mappetilgang.",
   "browseEmpty": "Ingen fane er åpen. Snitt 4 legger til nettvisning.",
   "aiEmpty": "KI er av til et endepunkt er satt. Snitt 5.",
-  "sliceLabel": "Snitt 1 — bare skall"
+  "sliceLabel": "Snitt 2 — filer",
+  "grantLabel": "Mappesti",
+  "grantAction": "Gi tilgang",
+  "previewEmpty": "Velg en fil for forhåndsvisning.",
+  "previewUnsupported": "Ingen forhåndsvisning for denne filtypen."
 }
