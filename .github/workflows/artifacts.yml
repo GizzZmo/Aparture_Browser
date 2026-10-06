@@ -1,0 +1,31 @@
+name: artifacts
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test-artifacts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Flutter tests
+        run: |
+          flutter pub get
+          flutter test --reporter expanded | tee flutter-test.log
+      - name: Rust tests
+        run: cargo test --manifest-path rust/core/Cargo.toml | tee rust-test.log
+      - uses: actions/upload-artifact@v4
+        with:
+          name: test-logs
+          path: |
+            flutter-test.log
+            rust-test.log
+          if-no-files-found: error

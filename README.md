@@ -4,82 +4,80 @@ Offline-first fil- og nettleser med et KI-panel. Én Flutter-kodebase, siktet mo
 
 Repo-navnet `Aparture_Browser` er en historisk skrivefeil. Produktet og pakken heter `aperture`.
 
+[![artifacts](https://github.com/GizzZmo/Aparture_Browser/actions/workflows/artifacts.yml/badge.svg)](https://github.com/GizzZmo/Aparture_Browser/actions/workflows/artifacts.yml)
+[![screenshots](https://github.com/GizzZmo/Aparture_Browser/actions/workflows/screenshots.yml/badge.svg)](https://github.com/GizzZmo/Aparture_Browser/actions/workflows/screenshots.yml)
+[![assets](https://github.com/GizzZmo/Aparture_Browser/actions/workflows/assets.yml/badge.svg)](https://github.com/GizzZmo/Aparture_Browser/actions/workflows/assets.yml)
+
 ## Status
 
-| Snitt | Innhold | Tilstand |
+Snitt 1–5 er merget til `main`. Plattformmapper er ikke committet, så `flutter run` krever `flutter create` lokalt.
+
+| Snitt | Innhold | Tester |
 | --- | --- | --- |
-| 1 | Skall, tre flater, språk | Merged |
-| 2 | Mappesti, listing, brødsmuler, forhåndsvisning, stisandkasse | PR #2 |
-| 3 | Bakgrunnsindeks og søk, avbrytbart | PR #3 |
-| 4 | Én nettfane, navigasjon, lesbar tekst, nedlasting | PR #4 |
-| 5 | KI-endepunkt, chat, leseverktøy, forslag med bekreftelse | Denne branchen |
+| 1 | Skall, tre flater, norsk/engelsk | `widget_test.dart` |
+| 2 | Mappesti, listing, forhåndsvisning, stisandkasse | `sandbox_test.dart`, `cargo test` |
+| 3 | Indeks og søk, avbrytbart | `index_test.dart`, Rust FTS5 |
+| 4 | Én nettfane, lesbar tekst, nedlasting til filflaten | `browse_test.dart` |
+| 5 | KI-endepunkt, leseverktøy, forslag med bekreftelse | `ai_test.dart`, `ai_http_test.dart` |
 
-Plattformmapper (linux, android, ios, macos, windows) er ikke committet. Generer dem lokalt før `flutter run`.
+## Filer
 
-## Slik bruker du filer
+1. Lim inn en absolutt mappesti og trykk Gi tilgang. Appen lister bare denne roten.
+2. Trykk Indekser. Tekstfiler (txt, md, json, csv, log) leses inn. Avbryt dropper resultatet etter at gåingen er ferdig.
+3. Søk i navn og innhold. `ext:txt` begrenser filtype.
 
-1. Åpne Filer.
-2. Lim inn en absolutt mappesti og trykk Gi tilgang. Appen lister bare denne roten.
-3. Trykk Indekser. Tekstfiler (txt, md, json, csv, log) leses inn. Avbryt dropper resultatet.
-4. Søk i navn og innhold. `ext:txt` begrenser filtype. Treff åpnes i forhåndsvisning.
+iOS og Android har ikke fri disk. Fildialog kommer når plattformmappene finnes.
 
-## Slik bruker du nett
+## Nett
 
-1. Åpne Nett.
-2. Skriv en adresse og trykk enter. Appen henter HTML og viser lesbar tekst, uten script og stil.
-3. Tilbake, frem og last på nytt bruker historikken i fanen.
-4. Last ned skriver teksten inn i den åpne mappen i filflaten. Gi tilgang til en mappe først.
+1. Skriv en adresse og trykk enter. Appen henter HTML og viser lesbar tekst, uten script og stil.
+2. Tilbake, frem og last på nytt bruker historikken i fanen.
+3. Last ned skriver teksten inn i den åpne mappen. Gi tilgang først.
 
-Dette er ikke en plattform-webview. WKWebView, Android WebView, WebView2 og WebKitGTK kommer når plattformmappene er generert.
+Dette er ikke WKWebView, Android WebView, WebView2 eller WebKitGTK.
 
-## Slik bruker du KI
+## KI
 
-1. Åpne KI. Tom base-URL betyr at KI er av.
-2. Sett base-URL, modell og nøkkel. Nøkkelen blir bare i minnet i dette snittet.
-3. Fest side bruker lesbar tekst fra aktiv fane. Teksten sendes som data, ikke som instruksjon.
-4. Leseverktøy er list_dir, read_file, search_files og page_text. propose_rename og propose_move blir liggende til du trykker Bruk. Det finnes ikke et sletteverktøy.
-
-iOS og Android har ikke fri disk. En systemfildialog kommer når plattformmappene finnes. Inntil da er stien manuell, og det er i praksis et desktop-steg.
+1. Tom base-URL betyr at KI er av.
+2. Sett base-URL, modell og nøkkel. Nøkkelen ligger bare i minnet.
+3. Fest side sender lesbar tekst som data, ikke som instruksjon.
+4. Leseverktøy: `list_dir`, `read_file`, `search_files`, `page_text`.
+5. `propose_rename` og `propose_move` venter på Bruk. Ukjente verktøy, inkludert slett, avvises. Flytt ut av roten avvises.
 
 ## Dataflyt
 
 ```text
-FilesPage
-  grant path -> sandbox.resolveWithin
-  list / preview -> FilesBrowser, avviser symlink ut av rot
-  Indekser -> FileIndex i Dart, søk med ext:
-  Last ned -> saveText i granted mappe
-BrowsePage
-  adresse, tilbake, frem, reload
-  HTTP-henting + readableText
-  plattform-webview er ikke koblet inn ennå
-rust/core
-  samme stisandkasse
-  SQLite FTS5-indeks (rusqlite, bundled)
-  ikke koblet til Flutter ennå (ingen flutter_rust_bridge)
+FilesPage -> sandbox.resolveWithin -> listing / preview / index
+BrowsePage -> HTTP + readableText -> download into granted folder
+AiPanel -> OpenAI-compatible /chat/completions
+        -> read tools run, write tools wait for Apply
+rust/core -> path sandbox + SQLite FTS5, not linked to Flutter yet
 ```
 
-Nettside- og filinnhold er data, ikke instruksjoner. Ingen KI-kall i dette snittet.
+## Bygg
 
-## Bygg og test
-
-Krever Flutter stable 3.24 eller nyere, og Rust hvis du tester kjernen.
+Krever Flutter stable 3.24 eller nyere, og Rust for kjernen.
 
 ```bash
 flutter pub get
 flutter test
+dart test test/ai_http_test.dart
 cargo test --manifest-path rust/core/Cargo.toml
 flutter create . --platforms=linux,android,ios,macos,windows
 flutter run -d linux
 ```
 
-`flutter test` dekker skall, stisandkasse og at 2000 indekserte filer kan listes på under ett sekund. `cargo test` dekker sandkasse og FTS5.
+## CI-artifacts
+
+Workflows og badges er forklart i [docs/ci.md](docs/ci.md).
+
+- `artifacts` laster opp testlogger.
+- `screenshots` laster opp PNG av de tre flatene.
+- `assets` pakker README, SPEC og skjermbilder. På en tag blir pakken også et release-asset.
 
 ## Kjente hull
 
-- Ingen fildialog. Gi nytt navn og flytt skjer bare etter Bruk på et forslag.
-- Nettflaten henter HTML selv. Den er ikke WKWebView/WebView2 ennå.
-- Nøkkel lagres ikke i OS-nøkkelring ennå.
-- Dart-indeksen er minnet, ikke SQLite. FTS5 ligger i Rust og er ikke koblet til UI.
-- Avbryt i UI markerer jobben som droppet. Selve gåingen er synkron og fullfører før resultatet kastes.
+- Ingen fildialog eller OS-nøkkelring.
+- Nettflaten er HTTP pluss lesbar tekst, ikke en plattform-webview.
+- Dart-indeksen ligger i minnet. FTS5 ligger i Rust og er ikke koblet til UI.
 - Agent-instruksen ligger i `SPEC.md`.

@@ -1,0 +1,28 @@
+name: screenshots
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  screenshots:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Generate surface screenshots
+        run: |
+          flutter pub get
+          flutter test --update-goldens test/screenshot_test.dart
+          mkdir -p artifacts/screenshots
+          cp test/goldens/*.png artifacts/screenshots/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: artifacts/screenshots/*.png
+          if-no-files-found: error
